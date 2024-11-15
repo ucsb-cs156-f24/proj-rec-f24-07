@@ -113,7 +113,7 @@ public class RecommendationRequestController extends ApiController {
      * @param id the id of the request to delete
      * @return a message indicating the request was deleted
      */
-    @Operation(summary= "Delete a RecommendationRequest")
+    @Operation(summary= "Delete a request")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("")
     public Object deleteRecommendationRequest(
@@ -132,7 +132,7 @@ public class RecommendationRequestController extends ApiController {
      * @param incoming the new date
      * @return the updated date object
      */
-    @Operation(summary= "Update a single date")
+    @Operation(summary= "Update a single request")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public RecommendationRequest updateRecommendationRequest(
