@@ -62,7 +62,7 @@ public class SwaggerWebIT {
 
     /**
      * This test checks that the Swagger page has a few of then endpoints for the
-     * UCSBDiningCommons API.
+     * RecommendationRequest API.
      * It is probably not necessary to test all controllers or endpoints; we are
      * mainly checking that
      * swagger is appropriate configured and operational. Presumably, if one
@@ -73,17 +73,17 @@ public class SwaggerWebIT {
      * a comprehensive test of the Swagger page.
      */
     @Test
-    public void swagger_page_has_endpoints_for_UCSBDiningCommons() throws Exception {
+    public void swagger_page_has_endpoints_for_recommendationRequest() throws Exception {
 
 
         assertThat(
-                page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("UCSBDiningCommons").setExact(true)))
+                page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("RecommendationRequest").setExact(true)))
                 .isVisible();
 
-        assertThat(page.getByText("Get a single commons"))
+        assertThat(page.getByText("Get a single request"))
                 .isVisible();
 
-        assertThat(page.getByText("Update a single commons"))
+        assertThat(page.getByText("Update a single request"))
                 .isVisible();
     }
 
