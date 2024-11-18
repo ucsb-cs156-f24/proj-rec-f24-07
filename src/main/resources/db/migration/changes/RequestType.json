@@ -1,0 +1,50 @@
+{
+    "databaseChangeLog": [
+      {
+        "changeSet": {
+          "id": "RequestTypes-1",
+          "author": "lodetrick",
+          "preConditions": [
+            {
+              "onFail": "MARK_RAN"
+            },
+            {
+              "not": [
+                {
+                  "tableExists": {
+                    "tableName": "REQUESTTYPES"
+                  }
+                }
+              ]
+            }
+          ],
+          "changes": [
+            {
+              "createTable": {
+                "columns": [
+                  {
+                    "column": {
+                      "autoIncrement": true,
+                      "constraints": {
+                        "primaryKey": true,
+                        "primaryKeyName": "REQUESTTYPES_PK"
+                      },
+                      "name": "ID",
+                      "type": "BIGINT"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "REQUESTTYPE",
+                      "type": "VARCHAR(255)"
+                    }
+                  }
+                ],
+                "tableName": "REQUESTTYPES"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
