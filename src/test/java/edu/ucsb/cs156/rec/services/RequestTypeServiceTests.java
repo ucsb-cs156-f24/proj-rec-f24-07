@@ -83,4 +83,10 @@ class RequestTypeServiceTests extends ControllerTestCase {
 		verify(requestTypeRepository, times(1)).save(requestType2);
 		assertEquals(List.of(requestType0,requestType2), requestSaved);
 	}
+
+	@Test
+	void test_constructor() {
+		RequestTypeService service = new RequestTypeService();
+		assertEquals(RequestTypeService.class, service.getClass());
+	}
 }
