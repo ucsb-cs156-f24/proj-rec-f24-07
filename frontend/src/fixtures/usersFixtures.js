@@ -13,10 +13,12 @@ const usersFixtures = {
       locale: "en",
       hostedDomain: "ucsb.edu",
       admin: true,
+      student: false,
+      professor: false,
     },
     {
       id: 2,
-      email: "pconrad.cis@gmail.com",
+      email: "pconrad.cis@ucsb.edu",
       googleSub: "102656447703889917227",
       pictureUrl:
         "https://lh3.googleusercontent.com/a-/AOh14GhpDBUt8eCEqiRT45hrFbcimsX_h1ONn0dc3HV8Bp8=s96-c",
@@ -27,10 +29,12 @@ const usersFixtures = {
       locale: "en",
       hostedDomain: null,
       admin: false,
+      student: false,
+      professor: true,
     },
     {
       id: 3,
-      email: "craig.zzyzx@example.org",
+      email: "craig.zzyzx@ucsb.edu",
       googleSub: "123456789012345678901",
       pictureUrl:
         "https://lh3.googleusercontent.com/a-/AOh14GhpDBUt8eCEqiRT45hrFbcimsX_h1ONn0dc3HV8Bp8=s96-c",
@@ -41,6 +45,8 @@ const usersFixtures = {
       locale: "en",
       hostedDomain: null,
       admin: false,
+      student: true,
+      professor: false,
     },
   ],
 };
