@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -116,7 +116,7 @@
 <a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,34 +124,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,31 +166,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 &nbsp;
-const RequestTypeDropdown = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+const RequestTypeDropdown = ({
   requestTypes,
   requestType,
   setRequestType,
   controlId,
-  onChange = <span class="branch-0 cbranch-no" title="branch not covered" >null,</span>
-  label = <span class="branch-0 cbranch-no" title="branch not covered" >"Request Type",</span>
+  onChange = null,
+  label = "Request Type",
 }) =&gt; {
-  const localSearchType = <span class="cstat-no" title="statement not covered" >localStorage.getItem(controlId);</span>
+  const localSearchType = localStorage.getItem(controlId);
 &nbsp;
-  const [requestTypeState, setRequestTypeState] = <span class="cstat-no" title="statement not covered" >useState(</span>
+  const [requestTypeState, setRequestTypeState] = useState(
     // Stryker disable next-line all : not sure how to test/mock local storage
     localSearchType || requestType,
   );
 &nbsp;
-  const handleSubjectOnChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(e</span>vent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    localStorage.setItem(controlId, event.target.value);</span>
-<span class="cstat-no" title="statement not covered" >    setRequestTypeState(event.target.value);</span>
-<span class="cstat-no" title="statement not covered" >    setRequestType(event.target.value);</span>
-<span class="cstat-no" title="statement not covered" >    if (onChange != null) {</span>
-<span class="cstat-no" title="statement not covered" >      onChange(event);</span>
+  const handleSubjectOnChange = (event) =&gt; {
+    localStorage.setItem(controlId, event.target.value);
+    setRequestTypeState(event.target.value);
+    setRequestType(event.target.value);
+    if (onChange != null) {
+      onChange(event);
     }
   };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;Form.Group controlId={controlId}&gt;
       &lt;Form.Label&gt;{label}&lt;/Form.Label&gt;
       &lt;Form.Control
@@ -198,10 +198,10 @@ const RequestTypeDropdown = <span class="cstat-no" title="statement not covered"
         value={requestTypeState}
         onChange={handleSubjectOnChange}
       &gt;
-        {requestTypes.map(<span class="fstat-no" title="function not covered" >fu</span>nction (object) {
-          const id = <span class="cstat-no" title="statement not covered" >object.id;</span>
-          const key = <span class="cstat-no" title="statement not covered" >`${controlId}-option-${id}`;</span>
-<span class="cstat-no" title="statement not covered" >          return (</span>
+        {requestTypes.map(function (object) {
+          const id = object.id;
+          const key = `${controlId}-option-${id}`;
+          return (
             &lt;option key={key} data-testid={key} value={object.requestType}&gt;
               {object.requestType}
             &lt;/option&gt;
@@ -220,7 +220,7 @@ export default RequestTypeDropdown;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-19T08:41:38.931Z
+                at 2024-11-20T02:44:41.662Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
