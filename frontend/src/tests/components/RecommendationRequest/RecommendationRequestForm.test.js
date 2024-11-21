@@ -15,7 +15,7 @@ describe("RecommendationRequestForm tests", () => {
     render(
       <Router>
         <RecommendationRequestForm />
-      </Router>
+      </Router>,
     );
 
     // Check for form fields
@@ -34,9 +34,11 @@ describe("RecommendationRequestForm tests", () => {
     render(
       <Router>
         <RecommendationRequestForm
-          initialContents={recommendationRequestFixtures.oneRecommendationRequest[0]}
+          initialContents={
+            recommendationRequestFixtures.oneRecommendationRequest[0]
+          }
         />
-      </Router>
+      </Router>,
     );
 
     await screen.findByTestId("RecommendationRequestForm-id");
@@ -48,50 +50,90 @@ describe("RecommendationRequestForm tests", () => {
     render(
       <Router>
         <RecommendationRequestForm />
-      </Router>
+      </Router>,
     );
-  
-    const requesterEmailField = screen.getByTestId("RecommendationRequestForm-requesterEmail");
+
+    const requesterEmailField = screen.getByTestId(
+      "RecommendationRequestForm-requesterEmail",
+    );
     const submitButton = screen.getByTestId("RecommendationRequestForm-submit");
     fireEvent.change(requesterEmailField, { target: { value: "" } });
     fireEvent.click(submitButton);
-  
-    expect(await screen.findByText("Requester Email is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Professor Email is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Requester Name is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Professor Name is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Request Type is required.")).toBeInTheDocument();
-    expect(await screen.findByText("Submission Date is required.")).toBeInTheDocument();
+
+    expect(
+      await screen.findByText("Requester Email is required."),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Professor Email is required."),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Requester Name is required."),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Professor Name is required."),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Request Type is required."),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Submission Date is required."),
+    ).toBeInTheDocument();
   });
-  
+
   test("No Error messages on good input", async () => {
     const mockSubmitAction = jest.fn();
 
     render(
       <Router>
         <RecommendationRequestForm submitAction={mockSubmitAction} />
-      </Router>
+      </Router>,
     );
 
     await screen.findByTestId("RecommendationRequestForm-requesterEmail");
-    const requesterEmailField = screen.getByTestId("RecommendationRequestForm-requesterEmail");
-    const requesterNameField = screen.getByTestId("RecommendationRequestForm-requesterName");
-    const professorEmailField = screen.getByTestId("RecommendationRequestForm-professorEmail");
-    const professorNameField = screen.getByTestId("RecommendationRequestForm-professorName");
-    const requestTypeField = screen.getByTestId("RecommendationRequestForm-requestType");
-    const detailsField = screen.getByTestId("RecommendationRequestForm-details");
-    const submissionDateField = screen.getByTestId("RecommendationRequestForm-submissionDate");
-    const completionDateField = screen.getByTestId("RecommendationRequestForm-completionDate");
+    const requesterEmailField = screen.getByTestId(
+      "RecommendationRequestForm-requesterEmail",
+    );
+    const requesterNameField = screen.getByTestId(
+      "RecommendationRequestForm-requesterName",
+    );
+    const professorEmailField = screen.getByTestId(
+      "RecommendationRequestForm-professorEmail",
+    );
+    const professorNameField = screen.getByTestId(
+      "RecommendationRequestForm-professorName",
+    );
+    const requestTypeField = screen.getByTestId(
+      "RecommendationRequestForm-requestType",
+    );
+    const detailsField = screen.getByTestId(
+      "RecommendationRequestForm-details",
+    );
+    const submissionDateField = screen.getByTestId(
+      "RecommendationRequestForm-submissionDate",
+    );
+    const completionDateField = screen.getByTestId(
+      "RecommendationRequestForm-completionDate",
+    );
     const submitButton = screen.getByTestId("RecommendationRequestForm-submit");
 
-    fireEvent.change(requesterEmailField, { target: { value: "test@example.com" } });
+    fireEvent.change(requesterEmailField, {
+      target: { value: "test@example.com" },
+    });
     fireEvent.change(requesterNameField, { target: { value: "Test User" } });
-    fireEvent.change(professorEmailField, { target: { value: "prof@example.com" } });
-    fireEvent.change(professorNameField, { target: { value: "Professor Name" } });
+    fireEvent.change(professorEmailField, {
+      target: { value: "prof@example.com" },
+    });
+    fireEvent.change(professorNameField, {
+      target: { value: "Professor Name" },
+    });
     fireEvent.change(requestTypeField, { target: { value: "Other" } });
     fireEvent.change(detailsField, { target: { value: "Some details" } });
-    fireEvent.change(submissionDateField, { target: { value: "2022-04-20T12:00" } });
-    fireEvent.change(completionDateField, { target: { value: "2022-05-20T12:00" } });
+    fireEvent.change(submissionDateField, {
+      target: { value: "2022-04-20T12:00" },
+    });
+    fireEvent.change(completionDateField, {
+      target: { value: "2022-05-20T12:00" },
+    });
 
     fireEvent.click(submitButton);
 
@@ -102,7 +144,7 @@ describe("RecommendationRequestForm tests", () => {
     render(
       <Router>
         <RecommendationRequestForm />
-      </Router>
+      </Router>,
     );
 
     await screen.findByTestId("RecommendationRequestForm-cancel");

@@ -66,7 +66,7 @@ function RecommendationRequestForm({
           </Form.Group>
         </Col>
 
-        {/* Requester Name */} 
+        {/* Requester Name */}
         <Col>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="requesterName">Requester Name</Form.Label>
@@ -85,7 +85,7 @@ function RecommendationRequestForm({
           </Form.Group>
         </Col>
 
-        {/* Professor Email */} 
+        {/* Professor Email */}
         <Col>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="professorEmail">Professor Email</Form.Label>
@@ -104,7 +104,7 @@ function RecommendationRequestForm({
           </Form.Group>
         </Col>
 
-        {/* Professor Name */} 
+        {/* Professor Name */}
         <Col>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="professorName">Professor Name</Form.Label>
@@ -138,9 +138,13 @@ function RecommendationRequestForm({
                 required: "Request Type is required.",
               })}
             >
-              <option value="">-- Select an Option --</option> 
-              <option value="CS Department BS/MS program">CS Department BS/MS program</option>
-              <option value="Scholarship or Fellowship">Scholarship or Fellowship</option>
+              <option value="">-- Select an Option --</option>
+              <option value="CS Department BS/MS program">
+                CS Department BS/MS program
+              </option>
+              <option value="Scholarship or Fellowship">
+                Scholarship or Fellowship
+              </option>
               <option value="MS program (other than CS Dept BS/MS)">
                 MS program (other than CS Dept BS/MS)
               </option>
@@ -152,7 +156,6 @@ function RecommendationRequestForm({
             </Form.Control.Feedback>
           </Form.Group>
         </Col>
-
 
         {/* Details */}
         <Col>
