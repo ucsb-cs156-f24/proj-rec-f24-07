@@ -9,11 +9,12 @@ import mockConsole from "jest-mock-console";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import AdminRequestsPage from "main/pages/AdminRequestsPage";
 
-describe("AdminUsersPage tests", () => {
+describe("AdminRequestsPage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
-  const testId = "UsersTable";
+  const testId = "RequestsTable";
 
   beforeEach(() => {
     axiosMock.reset();
@@ -33,23 +34,23 @@ describe("AdminUsersPage tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <AdminUsersPage />
+          <AdminRequestsPage />
         </MemoryRouter>
       </QueryClientProvider>
     );
-    await screen.findByText("Users");
+    await screen.findByText("Recommendation Requests");
   });
 
   test("renders empty table when backend unavailable", async () => {
     const queryClient = new QueryClient();
-    axiosMock.onGet("/api/admin/users").timeout();
+    axiosMock.onGet("/api/admin/requests").timeout();
 
     const restoreConsole = mockConsole();
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <AdminUsersPage />
+          <AdminRequestsPage />
         </MemoryRouter>
       </QueryClientProvider>
     );
@@ -60,7 +61,7 @@ describe("AdminUsersPage tests", () => {
 
     const errorMessage = console.error.mock.calls[0][0];
     expect(errorMessage).toMatch(
-      "Error communicating with backend via GET on /api/admin/users"
+      "Error communicating with backend via GET on /api/admin/requests"
     );
     restoreConsole();
 
