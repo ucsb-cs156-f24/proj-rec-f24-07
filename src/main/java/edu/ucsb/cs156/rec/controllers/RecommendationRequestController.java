@@ -117,6 +117,40 @@ public class RecommendationRequestController extends ApiController {
     }
 
     /**
+     * Get a single request by professorName
+     * 
+     * @param professorName the professorName of the request
+     * @return a RecommendationRequest
+     */
+    @Operation(summary= "Get a single request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getByProfessorName(
+            @Parameter(name="professorName") @RequestParam String professorName) {
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findByProfessorName(professorName)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, professorName));
+
+        return recommendationRequest;
+    }
+
+    /**
+     * Get a single request by studentName
+     * 
+     * @param studentName the studentName of the request
+     * @return a RecommendationRequest
+     */
+    @Operation(summary= "Get a single request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getByStudentName(
+            @Parameter(name="studentName") @RequestParam String studentName) {
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findByStudentName(studentName)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, studentName));
+
+        return recommendationRequest;
+    }
+
+    /**
      * Delete a RecommendationRequest
      * 
      * @param id the id of the request to delete

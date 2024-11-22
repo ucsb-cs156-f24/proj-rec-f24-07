@@ -62,6 +62,20 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                             .andExpect(status().is(403)); // logged out users can't get by id
     }
 
+    // FIX API LINK
+    @Test
+    public void logged_out_users_cannot_get_by_professorName() throws Exception {
+            mockMvc.perform(get("/api/recommendationrequest?professorName=Phill Conrad"))
+                            .andExpect(status().is(403)); // logged out users can't get by id
+    }
+
+    // FIX API LINK
+    @Test
+    public void logged_out_users_cannot_get_by_studentName() throws Exception {
+            mockMvc.perform(get("/api/recommendationrequest?studentName=Chris Gaucho"))
+                            .andExpect(status().is(403)); // logged out users can't get by id
+    }
+
     // Authorization tests for /api/recommendationrequest/post
     // (Perhaps should also have these for put and delete)
 
@@ -132,6 +146,115 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
             Map<String, Object> json = responseToJson(response);
             assertEquals("EntityNotFoundException", json.get("type"));
             assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_professorName_when_the_professorName_exists() throws Exception {
+
+            // arrange
+            LocalDateTime dateReq = LocalDateTime.parse("2022-04-20T00:00:00");
+            LocalDateTime dateNeed = LocalDateTime.parse("2022-05-01T00:00:00");
+
+            RecommendationRequest recommendationRequest = RecommendationRequest.builder()
+                            .requesterEmail("cgaucho@ucsb.edu")
+                            .requesterName("Chris Gaucho")
+                            .professorEmail("phtcon@ucsb.edu")
+                            .professorName("Phill Conrad")
+                            .requestType("PhD program")
+                            .details("I want to apply to a PhD program")
+                            .submissionDate(dateReq)
+                            .submissionDate(dateNeed)
+                            .status("Pending")
+                            .build();
+
+            when(recommendationRequestRepository.findByProfessorName(eq("Phill Conrad"))).thenReturn(Optional.of(recommendationRequest));
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/recommendationrequest?professorName=Phill Conrad"))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+
+            verify(recommendationRequestRepository, times(1)).findByProfessorName(eq("Phill Conrad"));
+            String expectedJson = mapper.writeValueAsString(recommendationRequest);
+            String responseString = response.getResponse().getContentAsString();
+            assertEquals(expectedJson, responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_professorName_when_the_professorName_does_not_exist() throws Exception {
+
+            // arrange
+
+            when(recommendationRequestRepository.findByProfessorName(eq("Phill Conrad"))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/recommendationrequest?professorName=Phill Conrad"))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+
+            verify(recommendationRequestRepository, times(1)).findByProfessorName(eq("Phill Conrad"));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("RecommendationRequest with professorName Phill Conrad not found", json.get("message"));
+    }
+
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_studentName_when_the_studentName_exists() throws Exception {
+
+            // arrange
+            LocalDateTime dateReq = LocalDateTime.parse("2022-04-20T00:00:00");
+            LocalDateTime dateNeed = LocalDateTime.parse("2022-05-01T00:00:00");
+
+            RecommendationRequest recommendationRequest = RecommendationRequest.builder()
+                            .requesterEmail("cgaucho@ucsb.edu")
+                            .requesterName("Chris Gaucho")
+                            .professorEmail("phtcon@ucsb.edu")
+                            .professorName("Phill Conrad")
+                            .requestType("PhD program")
+                            .details("I want to apply to a PhD program")
+                            .submissionDate(dateReq)
+                            .submissionDate(dateNeed)
+                            .status("Pending")
+                            .build();
+
+            when(recommendationRequestRepository.findByStudentName(eq("Chris Gaucho"))).thenReturn(Optional.of(recommendationRequest));
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/recommendationrequest?studentName=Chris Gaucho"))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+
+            verify(recommendationRequestRepository, times(1)).findByStudentName(eq("Chris Gaucho"));
+            String expectedJson = mapper.writeValueAsString(recommendationRequest);
+            String responseString = response.getResponse().getContentAsString();
+            assertEquals(expectedJson, responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_studentName_when_the_studentName_does_not_exist() throws Exception {
+
+            // arrange
+
+            when(recommendationRequestRepository.findByStudentName(eq("Chris Gaucho"))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/recommendationrequest?studentName=Chris Gaucho"))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+
+            verify(recommendationRequestRepository, times(1)).findByStudentName(eq("Chris Gaucho"));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("RecommendationRequest with studentName Chris Gaucho not found", json.get("message"));
     }
 
     @WithMockUser(roles = { "USER" })
