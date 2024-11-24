@@ -87,33 +87,29 @@ describe("utils/useBackend tests", () => {
 
       var axiosMock = new AxiosMockAdapter(axios);
 
-      axiosMock.onPost("/api/ucsbdates/post").reply(202, {
+      axiosMock.onPost("/api/dummy/post").reply(202, {
         id: 17,
-        quarterYYYYQ: "20221",
         name: "Groundhog Day",
-        localDateTime: "2022-02-02T12:00",
+        dateTime: "2022-02-02T12:00",
       });
 
-      const objectToAxiosParams = (ucsbDate) => ({
-        url: "/api/ucsbdates/post",
+      const objectToAxiosParams = (dummy) => ({
+        url: "/api/dummy/post",
         method: "POST",
         params: {
-          quarterYYYYQ: ucsbDate.quarterYYYYQ,
-          name: ucsbDate.name,
-          localDateTime: ucsbDate.localDateTime,
+          name: dummy.name,
+          dateTime: dummy.dateTime,
         },
       });
 
-      const onSuccess = jest.fn().mockImplementation((ucsbDate) => {
-        mockToast(
-          `New ucsbDate Created - id: ${ucsbDate.id} name: ${ucsbDate.name}`,
-        );
+      const onSuccess = jest.fn().mockImplementation((dummy) => {
+        mockToast(`New dummy Created - id: ${dummy.id} name: ${dummy.name}`);
       });
 
       const { result } = renderHook(
         () =>
           useBackendMutation(objectToAxiosParams, { onSuccess }, [
-            "/api/ucsbdates/all",
+            "/api/dummy/all",
           ]),
         { wrapper },
       );
@@ -121,15 +117,14 @@ describe("utils/useBackend tests", () => {
       const mutation = result.current;
       act(() =>
         mutation.mutate({
-          quarterYYYYQ: "20221",
           name: "Groundhog Day",
-          localDateTime: "2022-02-02T12:00",
+          dateTime: "2022-02-02T12:00",
         }),
       );
 
       await waitFor(() => expect(onSuccess).toHaveBeenCalled());
       expect(mockToast).toHaveBeenCalledWith(
-        "New ucsbDate Created - id: 17 name: Groundhog Day",
+        "New dummy Created - id: 17 name: Groundhog Day",
       );
     });
     test("useBackendMutation handles error correctly", async () => {
@@ -149,22 +144,19 @@ describe("utils/useBackend tests", () => {
       );
 
       const axiosMock = new AxiosMockAdapter(axios);
-      axiosMock.onPost("/api/ucsbdates/post").reply(404);
+      axiosMock.onPost("/api/dummy/post").reply(404);
 
-      const objectToAxiosParams = (ucsbDate) => ({
-        url: "/api/ucsbdates/post",
+      const objectToAxiosParams = (dummy) => ({
+        url: "/api/dummy/post",
         method: "POST",
         params: {
-          quarterYYYYQ: ucsbDate.quarterYYYYQ,
-          name: ucsbDate.name,
-          localDateTime: ucsbDate.localDateTime,
+          name: dummy.name,
+          dateTime: dummy.dateTime,
         },
       });
 
-      const onSuccess = jest.fn().mockImplementation((ucsbDate) => {
-        mockToast(
-          `New ucsbDate Created - id: ${ucsbDate.id} name: ${ucsbDate.name}`,
-        );
+      const onSuccess = jest.fn().mockImplementation((dummy) => {
+        mockToast(`New dummy Created - id: ${dummy.id} name: ${dummy.name}`);
       });
 
       const { result } = renderHook(
@@ -176,9 +168,8 @@ describe("utils/useBackend tests", () => {
 
       mutation.mutate(
         {
-          quarterYYYYQ: "20221",
           name: "Bastille Day",
-          localDateTime: "2022-06-14T12:00",
+          dateTime: "2022-06-14T12:00",
         },
         {
           onError: (e) =>

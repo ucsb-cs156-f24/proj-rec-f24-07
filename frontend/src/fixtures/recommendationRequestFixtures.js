@@ -1,0 +1,56 @@
+const recommendationRequestFixtures = {
+  oneRecommendationRequest: [
+    {
+      id: 1,
+      requesterEmail: "ramonwang@ucsb.edu",
+      requesterName: "Ramon Wang",
+      professorEmail: "pconrad@ucsb.edu",
+      professorName: "Phil Conrad",
+      requestType: "CS Department BS/MS program",
+      details: "Please allow me ",
+      submissionDate: "2022-01-02T12:00:00",
+      completionDate: "2022-02-06T11:00:00",
+      status: "Completed",
+    },
+  ],
+  threeRecommendationRequests: [
+    {
+      id: 1,
+      requesterEmail: "noahwang@ucsb.edu",
+      requesterName: "Noah Wang",
+      professorEmail: "dimirza@cs.ucsb.edu",
+      professorName: "Diba Mirza",
+      requestType: "Scholarship or Fellowship",
+      details: "",
+      submissionDate: "2024-05-03T08:00:00",
+      completionDate: null,
+      status: "Pending",
+    },
+    {
+      id: 2,
+      requesterEmail: "kanav@ucsb.edu",
+      requesterName: "Kanav Arora",
+      professorEmail: "mbeyeler@ucsb.edu",
+      professorName: "Michael Beyeler",
+      requestType: "PhD program",
+      details: "",
+      submissionDate: "2024-11-19T02:00:00",
+      completionDate: "2024-11-20T11:00:00",
+      status: "Rejected",
+    },
+    {
+      id: 3,
+      requesterEmail: "logandetrick@ucsb.edu",
+      requesterName: "Logan Detrick",
+      professorEmail: "ziad.matni@ucsb.edu",
+      professorName: "Ziad Matni",
+      requestType: "Other",
+      details: "Regrade final exam",
+      submissionDate: "2023-03-01T02:00:00",
+      completionDate: null,
+      status: "Pending",
+    },
+  ],
+};
+
+export { recommendationRequestFixtures };
