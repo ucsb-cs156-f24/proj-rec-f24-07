@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,46 +18,39 @@ import org.springframework.stereotype.Service;
  * This is the version of the service used in production.
  */
 
-<span class="fc" id="L20">@Slf4j</span>
+<span class="fc" id="L21">@Slf4j</span>
 @Service(&quot;RequestType&quot;)
-<span class="fc" id="L22">public class RequestTypeService {</span>
+<span class="fc" id="L23">public class RequestTypeService {</span>
 
 	@Autowired
 	private RequestTypeRepository requestTypeRepository;
 
-	private boolean requestTypeExists(String type, Iterable&lt;RequestType&gt; typeList) {
-<span class="fc bfc" id="L28" title="All 2 branches covered.">		for (RequestType requestType : typeList) {</span>
-<span class="fc bfc" id="L29" title="All 2 branches covered.">			if (requestType.getRequestType().equals(type)) {</span>
-<span class="fc" id="L30">				return true;</span>
-			}
-<span class="fc" id="L32">		}</span>
-<span class="fc" id="L33">		return false;</span>
-	}
-
 	public RequestType trySave(RequestType requestType) throws EntityAlreadyExistsException {
-<span class="fc" id="L37">		Iterable&lt;RequestType&gt; typeList = requestTypeRepository.findAll();</span>
+<span class="fc" id="L29">		Iterable&lt;RequestType&gt; typeList = requestTypeRepository.findAll();</span>
 
-<span class="fc" id="L39">		boolean alreadyContains = requestTypeExists(requestType.getRequestType(), typeList);</span>
+<span class="fc" id="L31">		Optional&lt;RequestType&gt; alreadyContains = requestTypeRepository.findByRequestType(requestType.getRequestType());</span>
 
-<span class="fc bfc" id="L41" title="All 2 branches covered.">		if (alreadyContains) {</span>
-<span class="fc" id="L42">			throw new EntityAlreadyExistsException(RequestType.class, requestType.getRequestType());</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		if (alreadyContains.isPresent()) {</span>
+<span class="fc" id="L35">			throw new EntityAlreadyExistsException(RequestType.class, requestType.getRequestType());</span>
 		}
 
-<span class="fc" id="L45">		return requestTypeRepository.save(requestType);</span>
+<span class="fc" id="L38">		return requestTypeRepository.save(requestType);</span>
 	}
 
 	public List&lt;RequestType&gt; trySaveTypes(List&lt;RequestType&gt; toSave) {
-<span class="fc" id="L49">		List&lt;RequestType&gt; savedTypes = new ArrayList&lt;RequestType&gt;();</span>
-<span class="fc" id="L50">		Iterable&lt;RequestType&gt; typeList = requestTypeRepository.findAll();</span>
+<span class="fc" id="L42">		List&lt;RequestType&gt; savedTypes = new ArrayList&lt;RequestType&gt;();</span>
+<span class="fc" id="L43">		Iterable&lt;RequestType&gt; typeList = requestTypeRepository.findAll();</span>
 
-<span class="fc" id="L52">		toSave.forEach((requestType) -&gt; {</span>
-<span class="fc" id="L53">			boolean alreadyContains = requestTypeExists(requestType.getRequestType(), typeList);</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">			if (!alreadyContains) {</span>
-<span class="fc" id="L55">				savedTypes.add(requestTypeRepository.save(requestType));</span>
+<span class="fc" id="L45">		toSave.forEach((requestType) -&gt; {</span>
+<span class="fc" id="L46">			Optional&lt;RequestType&gt; alreadyContains = requestTypeRepository.findByRequestType(requestType.getRequestType());</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">			if (!alreadyContains.isPresent()) {</span>
+<span class="fc" id="L49">				savedTypes.add(requestTypeRepository.save(requestType));</span>
 			}
-<span class="fc" id="L57">		});</span>
+<span class="fc" id="L51">		});</span>
 
-<span class="fc" id="L59">		return savedTypes;</span>
+<span class="fc" id="L53">		return savedTypes;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
