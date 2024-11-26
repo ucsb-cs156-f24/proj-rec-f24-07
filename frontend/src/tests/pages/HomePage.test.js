@@ -10,15 +10,22 @@ import AxiosMockAdapter from "axios-mock-adapter";
 
 describe("HomePage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
-  axiosMock
-    .onGet("/api/currentUser")
-    .reply(200, apiCurrentUserFixtures.userOnly);
-  axiosMock
-    .onGet("/api/systemInfo")
-    .reply(200, systemInfoFixtures.showingNeither);
 
-  const queryClient = new QueryClient();
-  test("renders without crashing", async () => {
+  beforeEach(() => {
+    axiosMock.reset();
+    axiosMock.resetHistory();
+    axiosMock
+      .onGet("/api/systemInfo")
+      .reply(200, systemInfoFixtures.showingNeither);
+  });
+
+  test("renders correctly for unauthenticated user", async () => {
+    const queryClient = new QueryClient();
+
+    axiosMock
+      .onGet("/api/currentUser")
+      .reply(200, apiCurrentUserFixtures.notLoggedIn);
+
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -26,6 +33,33 @@ describe("HomePage tests", () => {
         </MemoryRouter>
       </QueryClientProvider>,
     );
-    await screen.findByText(/Hello, world!/);
+
+    await screen.findByText(/Welcome!/);
+    const logInText = screen.getByTestId("home-page-text-log-in");
+    expect(logInText).toBeInTheDocument();
+    expect(logInText.textContent).toEqual(" Please log in to get started.");
+  });
+
+  test("renders correctly for logged in user", async () => {
+    const queryClient = new QueryClient();
+
+    axiosMock
+      .onGet("/api/currentUser")
+      .reply(200, apiCurrentUserFixtures.userOnly);
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+
+    await screen.findByText("Log Out");
+    const navigateText = screen.getByTestId("home-page-text-navigate");
+    expect(navigateText).toBeInTheDocument();
+    expect(navigateText.textContent).toEqual(
+      " Navigate to the requests tab to get started.",
+    );
   });
 });

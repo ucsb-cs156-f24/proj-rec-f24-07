@@ -9,7 +9,7 @@ export default function AppNavbar({
   doLogout,
   currentUrl = window.location.href,
 }) {
-  var oauthLogin = systemInfo?.oauthLogin || "/oauth2/authorization/google";
+  const oauthLogin = systemInfo?.oauthLogin || "/oauth2/authorization/google";
   return (
     <>
       {(currentUrl.startsWith("http://localhost:3000") ||
@@ -25,23 +25,10 @@ export default function AppNavbar({
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
-            Example
+            UCSB Recommendations
           </Navbar.Brand>
 
           <Navbar.Toggle />
-
-          <Nav className="me-auto">
-            {systemInfo?.springH2ConsoleEnabled && (
-              <>
-                <Nav.Link href="/h2-console">H2Console</Nav.Link>
-              </>
-            )}
-            {systemInfo?.showSwaggerUILink && (
-              <>
-                <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
-              </>
-            )}
-          </Nav>
 
           <>
             {/* be sure that each NavDropdown has a unique id and data-testid  */}
@@ -63,15 +50,16 @@ export default function AppNavbar({
                   <Nav.Link as={Link} to="/restaurants">
                     Restaurants
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/ucsbdates">
-                    UCSB Dates
-                  </Nav.Link>
                   <Nav.Link as={Link} to="/placeholder">
                     Placeholder
                   </Nav.Link>
                 </>
-              ) : (
-                <></>
+              ) : null}
+              {systemInfo?.springH2ConsoleEnabled && (
+                <Nav.Link href="/h2-console">H2Console</Nav.Link>
+              )}
+              {systemInfo?.showSwaggerUILink && (
+                <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
               )}
             </Nav>
 
