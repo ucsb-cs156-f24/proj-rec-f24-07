@@ -11,7 +11,7 @@ const AdminRequestsPage = () => {
     // Stryker disable next-line all : don't test internal caching of React Query
     ["/api/admin/requests"],
     { method: "GET", url: "/api/admin/requests" },
-    []
+    [],
   );
 
   return (
