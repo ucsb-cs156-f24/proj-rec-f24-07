@@ -8,6 +8,8 @@ import RestaurantIndexPage from "main/pages/Restaurants/RestaurantIndexPage";
 import RestaurantCreatePage from "main/pages/Restaurants/RestaurantCreatePage";
 import RestaurantEditPage from "main/pages/Restaurants/RestaurantEditPage";
 
+import RequestTypeCreatePage from "main/pages/RequestTypes/RequestTypeCreatePage";
+
 import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
 import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
@@ -16,6 +18,7 @@ import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "react-toastify/dist/ReactToastify.css";
+import PlaceholderRequestTypeIndexPage from "main/pages/RequestTypes/PlaceholderRequestTypeIndexPage";
 
 function App() {
   const { data: currentUser } = useCurrentUser();
@@ -51,6 +54,21 @@ function App() {
               exact
               path="/restaurants/create"
               element={<RestaurantCreatePage />}
+            />
+          </>
+        )}
+        {(hasRole(currentUser, "ROLE_ADMIN") ||
+          hasRole(currentUser, "ROLE_INSTRUCTOR")) && (
+          <>
+            <Route
+              exact
+              path="/settings/requesttypes"
+              element={<PlaceholderRequestTypeIndexPage />}
+            />
+            <Route
+              exact
+              path="/settings/requesttypes/create"
+              element={<RequestTypeCreatePage />}
             />
           </>
         )}

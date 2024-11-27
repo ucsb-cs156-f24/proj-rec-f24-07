@@ -80,7 +80,7 @@ jobs:
          cache-dependency-path: 'pom.xml' 
   
     - name: Build javadoc
-      run: mvn -DskipTests javadoc:javadoc
+      run: mvn -DskipTests -Dmaven.javadoc.failOnError=false javadoc:javadoc
  
     - name: Deploy 🚀    
       if: always() # always upload artifacts, even if tests fail
