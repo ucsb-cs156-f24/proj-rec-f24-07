@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.rec.repositories;
 
 import edu.ucsb.cs156.rec.entities.RequestType;
+import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RequestTypeRepository extends CrudRepository<RequestType, Long> {
+	Optional<RequestType> findByRequestType(String requestType);
 }

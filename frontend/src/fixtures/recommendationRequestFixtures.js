@@ -2,52 +2,69 @@ const recommendationRequestFixtures = {
   oneRecommendationRequest: [
     {
       id: 1,
-      requesterEmail: "ramonwang@ucsb.edu",
-      requesterName: "Ramon Wang",
-      professorEmail: "pconrad@ucsb.edu",
-      professorName: "Phil Conrad",
+
+      requesterId: 6,
+
+      professorId: 1,
+
       requestType: "CS Department BS/MS program",
-      details: "Please allow me ",
-      submissionDate: "2022-01-02T12:00:00",
-      completionDate: "2022-02-06T11:00:00",
+      details: "Extension deadline request :)",
+
+      neededByDate: "2022-04-02T12:00",
+      submissionDate: "2023-06-01T02:00:00",
+      completionDate: null,
+
       status: "Completed",
     },
   ],
+
   threeRecommendationRequests: [
     {
-      id: 1,
-      requesterEmail: "noahwang@ucsb.edu",
-      requesterName: "Noah Wang",
-      professorEmail: "dimirza@cs.ucsb.edu",
-      professorName: "Diba Mirza",
+      id: 2,
+
+      requesterId: 7,
+
+      professorId: 2,
+
       requestType: "Scholarship or Fellowship",
-      details: "",
-      submissionDate: "2024-05-03T08:00:00",
+      details: "scholarship details",
+
+      neededByDate: "2022-09-02T12:00",
+      submissionDate: "2023-08-01T02:00:00",
       completionDate: null,
+
       status: "Pending",
     },
     {
-      id: 2,
-      requesterEmail: "kanav@ucsb.edu",
-      requesterName: "Kanav Arora",
-      professorEmail: "mbeyeler@ucsb.edu",
-      professorName: "Michael Beyeler",
+      id: 3,
+
+      requesterId: 9,
+
+      professorId: 1,
+
       requestType: "PhD program",
-      details: "",
-      submissionDate: "2024-11-19T02:00:00",
-      completionDate: "2024-11-20T11:00:00",
+      details: "PHD deadline details",
+
+      neededByDate: "2022-17-02T12:00",
+      submissionDate: "2023-04-01T02:00:00",
+      completionDate: null,
+
       status: "Rejected",
     },
     {
-      id: 3,
-      requesterEmail: "logandetrick@ucsb.edu",
-      requesterName: "Logan Detrick",
-      professorEmail: "ziad.matni@ucsb.edu",
-      professorName: "Ziad Matni",
+      id: 4,
+
+      requesterId: 10,
+
+      professorId: 2,
+
       requestType: "Other",
       details: "Regrade final exam",
-      submissionDate: "2023-03-01T02:00:00",
+
+      neededByDate: "2022-27-02T12:00",
+      submissionDate: "2023-09-01T02:00:00",
       completionDate: null,
+
       status: "Pending",
     },
   ],

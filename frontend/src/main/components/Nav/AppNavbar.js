@@ -9,7 +9,7 @@ export default function AppNavbar({
   doLogout,
   currentUrl = window.location.href,
 }) {
-  var oauthLogin = systemInfo?.oauthLogin || "/oauth2/authorization/google";
+  const oauthLogin = systemInfo?.oauthLogin || "/oauth2/authorization/google";
   return (
     <>
       {(currentUrl.startsWith("http://localhost:3000") ||
@@ -25,23 +25,10 @@ export default function AppNavbar({
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
-            Example
+            UCSB Recommendations
           </Navbar.Brand>
 
           <Navbar.Toggle />
-
-          <Nav className="me-auto">
-            {systemInfo?.springH2ConsoleEnabled && (
-              <>
-                <Nav.Link href="/h2-console">H2Console</Nav.Link>
-              </>
-            )}
-            {systemInfo?.showSwaggerUILink && (
-              <>
-                <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
-              </>
-            )}
-          </Nav>
 
           <>
             {/* be sure that each NavDropdown has a unique id and data-testid  */}
@@ -58,6 +45,18 @@ export default function AppNavbar({
                   <NavDropdown.Item href="/admin/users">Users</NavDropdown.Item>
                 </NavDropdown>
               )}
+              {(hasRole(currentUser, "ROLE_ADMIN") ||
+                hasRole(currentUser, "ROLE_INSTRUCTOR")) && (
+                <NavDropdown
+                  title="Settings"
+                  id="appnavbar-settings-dropdown"
+                  data-testid="appnavbar-settings-dropdown"
+                >
+                  <NavDropdown.Item href="/settings/requesttypes">
+                    Request Types
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
               {currentUser && currentUser.loggedIn ? (
                 <>
                   <Nav.Link as={Link} to="/restaurants">
@@ -67,8 +66,12 @@ export default function AppNavbar({
                     Placeholder
                   </Nav.Link>
                 </>
-              ) : (
-                <></>
+              ) : null}
+              {systemInfo?.springH2ConsoleEnabled && (
+                <Nav.Link href="/h2-console">H2Console</Nav.Link>
+              )}
+              {systemInfo?.showSwaggerUILink && (
+                <Nav.Link href="/swagger-ui/index.html">Swagger</Nav.Link>
               )}
             </Nav>
 
