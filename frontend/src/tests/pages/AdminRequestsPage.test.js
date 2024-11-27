@@ -1,15 +1,14 @@
 import { render, waitFor, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import AdminUsersPage from "main/pages/AdminUsersPage";
-import usersFixtures from "fixtures/usersFixtures";
+import AdminRequestsPage from "main/pages/AdminRequestsPage";
+import recommendationRequestFixtures from "fixtures/recommendationRequestFixtures";
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import mockConsole from "jest-mock-console";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import AdminRequestsPage from "main/pages/AdminRequestsPage";
 
 describe("AdminRequestsPage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
@@ -27,9 +26,11 @@ describe("AdminRequestsPage tests", () => {
       .reply(200, systemInfoFixtures.showingNeither);
   });
 
-  test("renders without crashing on three users", async () => {
+  test("renders without crashing on three requests", async () => {
     const queryClient = new QueryClient();
-    axiosMock.onGet("/api/admin/users").reply(200, usersFixtures.threeUsers);
+    axiosMock
+      .onGet("/api/admin/requests")
+      .reply(200, recommendationRequestFixtures.threeRecommendationRequests);
 
     render(
       <QueryClientProvider client={queryClient}>

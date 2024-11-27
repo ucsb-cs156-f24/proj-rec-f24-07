@@ -6,20 +6,12 @@ const columns = [
     accessor: "id", // accessor is the "key" in the data
   },
   {
-    Header: "Requester Email",
-    accessor: "requesterEmail",
+    Header: "Requester Id",
+    accessor: "requesterId",
   },
   {
-    Header: "Requester Name",
-    accessor: "requesterName",
-  },
-  {
-    Header: "Professor Email",
-    accessor: "professorEmail",
-  },
-  {
-    Header: "Professor Name",
-    accessor: "professorName",
+    Header: "Professor Id",
+    accessor: "professorId",
   },
   {
     Header: "Request Type",
@@ -28,6 +20,10 @@ const columns = [
   {
     Header: "Details",
     accessor: "details",
+  },
+  {
+    Header: "Needed By Date",
+    accessor: "neededByDate",
   },
   {
     Header: "Submission Date",
@@ -43,7 +39,7 @@ const columns = [
   },
 ];
 
-export default function RequestsTable({ requests }) {
+export default function UsersTable({ requests }) {
   return (
     <OurTable data={requests} columns={columns} testid={"RequestsTable"} />
   );
