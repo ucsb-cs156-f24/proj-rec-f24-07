@@ -7,11 +7,9 @@ import RestaurantIndexPage from "main/pages/Restaurants/RestaurantIndexPage";
 import RestaurantCreatePage from "main/pages/Restaurants/RestaurantCreatePage";
 import RestaurantEditPage from "main/pages/Restaurants/RestaurantEditPage";
 
-
 import RequestTypeEditPage from "main/pages/RequestTypes/RequestTypeEditPage";
 
 import RequestTypeCreatePage from "main/pages/RequestTypes/RequestTypeCreatePage";
-
 
 import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
