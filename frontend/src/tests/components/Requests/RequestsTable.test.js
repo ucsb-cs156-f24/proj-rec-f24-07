@@ -11,7 +11,7 @@ describe("RequestsTable tests", () => {
     render(
       <RequestsTable
         requests={recommendationRequestFixtures.oneRecommendationRequest}
-      />,
+      />
     );
   });
 
@@ -19,7 +19,7 @@ describe("RequestsTable tests", () => {
     render(
       <RequestsTable
         requests={recommendationRequestFixtures.threeRecommendationRequests}
-      />,
+      />
     );
 
     const expectedHeaders = [
@@ -57,16 +57,16 @@ describe("RequestsTable tests", () => {
     });
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(
-      "1",
+      "2"
     );
     expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-requesterId`),
-    ).toHaveTextContent("true");
+      screen.getByTestId(`${testId}-cell-row-0-col-requesterId`)
+    ).toHaveTextContent("7");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
-      "2",
+      "3"
     );
     expect(
-      screen.getByTestId(`${testId}-cell-row-1-col-admin`),
-    ).toHaveTextContent("true");
+      screen.getByTestId(`${testId}-cell-row-1-col-professorId`)
+    ).toHaveTextContent("1");
   });
 });
