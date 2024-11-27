@@ -37,7 +37,7 @@ describe("AdminRequestsPage tests", () => {
         <MemoryRouter>
           <AdminRequestsPage />
         </MemoryRouter>
-      </QueryClientProvider>
+      </QueryClientProvider>,
     );
     await screen.findByText("Recommendation Requests");
   });
@@ -53,7 +53,7 @@ describe("AdminRequestsPage tests", () => {
         <MemoryRouter>
           <AdminRequestsPage />
         </MemoryRouter>
-      </QueryClientProvider>
+      </QueryClientProvider>,
     );
 
     await waitFor(() => {
@@ -62,12 +62,12 @@ describe("AdminRequestsPage tests", () => {
 
     const errorMessage = console.error.mock.calls[0][0];
     expect(errorMessage).toMatch(
-      "Error communicating with backend via GET on /api/recommendationrequests/alladmin"
+      "Error communicating with backend via GET on /api/recommendationrequests/alladmin",
     );
     restoreConsole();
 
     expect(
-      screen.queryByTestId(`${testId}-cell-row-0-col-id`)
+      screen.queryByTestId(`${testId}-cell-row-0-col-id`),
     ).not.toBeInTheDocument();
   });
 });
