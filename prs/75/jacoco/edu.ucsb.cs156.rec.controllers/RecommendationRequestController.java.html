@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecommendationRequestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">proj-rec</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.rec.controllers</a> &gt; <span class="el_source">RecommendationRequestController.java</span></div><h1>RecommendationRequestController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.rec.controllers;
 
 import edu.ucsb.cs156.rec.entities.RecommendationRequest;
+import edu.ucsb.cs156.rec.entities.RequestType;
 import edu.ucsb.cs156.rec.entities.User;
 import edu.ucsb.cs156.rec.errors.EntityNotFoundException;
 import edu.ucsb.cs156.rec.repositories.RecommendationRequestRepository;
+import edu.ucsb.cs156.rec.repositories.RequestTypeRepository;
 import edu.ucsb.cs156.rec.repositories.UserRepository;
 import edu.ucsb.cs156.rec.services.CurrentUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,14 +29,16 @@ import java.time.LocalDateTime;
 @Tag(name = &quot;RecommendationRequest&quot;)
 @RequestMapping(&quot;/api/recommendationrequest&quot;)
 @RestController
-<span class="fc" id="L31">@Slf4j</span>
-<span class="fc" id="L32">public class RecommendationRequestController extends ApiController {</span>
+<span class="fc" id="L32">@Slf4j</span>
+<span class="fc" id="L33">public class RecommendationRequestController extends ApiController {</span>
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
     @Autowired
     CurrentUserService currentUserService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RequestTypeRepository requestTypeRepository;
 
     /**
      * List all recommendation requests
@@ -46,8 +49,8 @@ import java.time.LocalDateTime;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/alladmin&quot;)
     public Iterable&lt;RecommendationRequest&gt; allRecommendationRequests() {
-<span class="fc" id="L49">        Iterable&lt;RecommendationRequest&gt; requests = recommendationRequestRepository.findAll();</span>
-<span class="fc" id="L50">        return requests;</span>
+<span class="fc" id="L52">        Iterable&lt;RecommendationRequest&gt; requests = recommendationRequestRepository.findAll();</span>
+<span class="fc" id="L53">        return requests;</span>
     }
 	
 	/**
@@ -59,11 +62,11 @@ import java.time.LocalDateTime;
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;RecommendationRequest&gt; getAllCurrentUser() {
-<span class="fc" id="L62">        User currentUser = currentUserService.getUser();</span>
-<span class="fc" id="L63">        Long requesterId = currentUser.getId();</span>
-<span class="fc" id="L64">        Iterable&lt;RecommendationRequest&gt; requests = recommendationRequestRepository.findAllByRequesterId(requesterId);</span>
+<span class="fc" id="L65">        User currentUser = currentUserService.getUser();</span>
+<span class="fc" id="L66">        Long requesterId = currentUser.getId();</span>
+<span class="fc" id="L67">        Iterable&lt;RecommendationRequest&gt; requests = recommendationRequestRepository.findAllByRequesterId(requesterId);</span>
 
-<span class="fc" id="L66">        return requests;</span>
+<span class="fc" id="L69">        return requests;</span>
     }
 
     /**
@@ -94,35 +97,38 @@ import java.time.LocalDateTime;
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L97">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
-<span class="fc" id="L98">        User currentUser = currentUserService.getUser();</span>
-<span class="fc" id="L99">        Long requesterId = currentUser.getId();</span>
+<span class="fc" id="L100">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
+<span class="fc" id="L101">        User currentUser = currentUserService.getUser();</span>
+<span class="fc" id="L102">        Long requesterId = currentUser.getId();</span>
 
-<span class="fc" id="L101">        User professor = userRepository.findById(professorId)</span>
-<span class="fc" id="L102">            .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Professor does not exist.&quot;));</span>
+<span class="fc" id="L104">        User professor = userRepository.findById(professorId)</span>
+<span class="fc" id="L105">            .orElseThrow(() -&gt; new EntityNotFoundException(User.class, professorId));</span>
 
-<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (!professor.getAdmin()) {</span>
-<span class="fc" id="L105">            throw new IllegalArgumentException(&quot;Requested professor is not an admin.&quot;);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (!professor.getAdmin()) {</span>
+<span class="fc" id="L108">            throw new IllegalArgumentException(&quot;Requested professor is not an admin.&quot;);</span>
         }
 
-<span class="fc" id="L108">        recommendationRequest.setRequesterId(requesterId);</span>
-<span class="fc" id="L109">        recommendationRequest.setProfessorId(professorId);</span>
-<span class="fc" id="L110">        recommendationRequest.setRequestType(requestType);</span>
-<span class="fc" id="L111">        recommendationRequest.setDetails(details);</span>
+<span class="fc" id="L111">        requestTypeRepository.findByRequestType(requestType)</span>
+<span class="fc" id="L112">                .orElseThrow(() -&gt; new EntityNotFoundException(RequestType.class, requestType));</span>
+
+<span class="fc" id="L114">        recommendationRequest.setRequesterId(requesterId);</span>
+<span class="fc" id="L115">        recommendationRequest.setProfessorId(professorId);</span>
+<span class="fc" id="L116">        recommendationRequest.setRequestType(requestType);</span>
+<span class="fc" id="L117">        recommendationRequest.setDetails(details);</span>
 
         // completionDate is unassigned until completed, so we set that as null
-<span class="fc" id="L114">        LocalDateTime submissionDate = LocalDateTime.now();</span>
-<span class="fc" id="L115">        submissionDate = submissionDate.minusNanos(submissionDate.getNano());</span>
+<span class="fc" id="L120">        LocalDateTime submissionDate = LocalDateTime.now();</span>
+<span class="fc" id="L121">        submissionDate = submissionDate.minusNanos(submissionDate.getNano());</span>
 
-<span class="fc" id="L117">        String status = &quot;Pending&quot;;</span>
+<span class="fc" id="L123">        String status = &quot;Pending&quot;;</span>
 
-<span class="fc" id="L119">        recommendationRequest.setNeededByDate(neededByDate);</span>
-<span class="fc" id="L120">        recommendationRequest.setSubmissionDate(submissionDate);</span>
-<span class="fc" id="L121">        recommendationRequest.setStatus(status);</span>
+<span class="fc" id="L125">        recommendationRequest.setNeededByDate(neededByDate);</span>
+<span class="fc" id="L126">        recommendationRequest.setSubmissionDate(submissionDate);</span>
+<span class="fc" id="L127">        recommendationRequest.setStatus(status);</span>
 
-<span class="fc" id="L123">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
+<span class="fc" id="L129">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
 
-<span class="fc" id="L125">        return savedRecommendationRequest;</span>
+<span class="fc" id="L131">        return savedRecommendationRequest;</span>
     }
 
     /**
@@ -139,18 +145,18 @@ import java.time.LocalDateTime;
     public RecommendationRequest getById(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id
         ) {
-<span class="fc" id="L142">        User currentUser = currentUserService.getUser();</span>
-<span class="fc" id="L143">        Long requesterId = currentUser.getId();</span>
+<span class="fc" id="L148">        User currentUser = currentUserService.getUser();</span>
+<span class="fc" id="L149">        Long requesterId = currentUser.getId();</span>
 
-<span class="fc" id="L145">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
-<span class="fc" id="L146">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+<span class="fc" id="L151">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L152">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
 
-<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (requesterId != recommendationRequest.getRequesterId()) {</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (requesterId != recommendationRequest.getRequesterId()) {</span>
 			// throw entity not found to reveal less information to any malicious user
-<span class="fc" id="L150">			throw new EntityNotFoundException(RecommendationRequest.class, id);</span>
+<span class="fc" id="L156">			throw new EntityNotFoundException(RecommendationRequest.class, id);</span>
 		}
 
-<span class="fc" id="L153">        return recommendationRequest;</span>
+<span class="fc" id="L159">        return recommendationRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
