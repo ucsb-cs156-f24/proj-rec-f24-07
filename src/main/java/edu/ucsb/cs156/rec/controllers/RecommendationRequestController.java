@@ -14,9 +14,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,21 +41,25 @@ public class RecommendationRequestController extends ApiController {
     UserRepository userRepository;
     @Autowired
     RequestTypeRepository requestTypeRepository;
+    @Autowired
+    ObjectMapper mapper;
 
     /**
      * List all recommendation requests
-     * 
-     * @return an iterable of RecommendationRequest
+     * @return a list of all recommendation requests
+     * @throws JsonProcessingException if there is an error processing the JSON
      */
     @Operation(summary= "List all recommendation requests")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/alladmin")
-    public Iterable<RecommendationRequest> allRecommendationRequests() {
-        Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
-        return requests;
+    public ResponseEntity<String> allRecommendationRequests() 
+        throws JsonProcessingException {
+            Iterable<RecommendationRequest> requests = recommendationRequestRepository.findAll();
+            String body = mapper.writeValueAsString(requests);
+            return ResponseEntity.ok().body(body);
     }
 	
-	/**
+    /**
      * List all recommendation requests created by a user with requesterId
      * 
      * @return an iterable of RecommendationRequest
