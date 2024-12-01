@@ -39,7 +39,7 @@ const columns = [
   },
 ];
 
-export default function UsersTable({ requests }) {
+export default function RequestsTable({ requests }) {
   return (
     <OurTable data={requests} columns={columns} testid={"RequestsTable"} />
   );
