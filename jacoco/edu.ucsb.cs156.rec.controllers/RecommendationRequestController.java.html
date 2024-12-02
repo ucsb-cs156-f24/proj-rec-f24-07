@@ -58,7 +58,7 @@ import java.time.LocalDateTime;
      * 
      * @return an iterable of RecommendationRequest
      */
-    @Operation(summary= &quot;List all recommendation requests&quot;)
+    @Operation(summary= &quot;List all recommendation requests created by a user with requesterId&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;RecommendationRequest&gt; getAllCurrentUser() {
@@ -70,17 +70,13 @@ import java.time.LocalDateTime;
     }
 
     /**
-     * Create a new request
+     * Create a new recommendation request
      * 
-     * @param requesterId   
-     * @param professorEmail     
-     * @param requestType      
-     * @param details          
-     * @param neededByDate 
-     * @param submissionDate
-     * @param completionDate
-     * @param status
-     * @return                  
+     * @param professorId the id of the professor
+     * @param requestType the request type
+     * @param details the details of the recommendation request
+     * @param neededByDate the date the request should be fulfilled by
+     * @return a RecommendationRequest
      */
     @Operation(summary= &quot;Create a new request&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
@@ -97,38 +93,38 @@ import java.time.LocalDateTime;
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L100">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
-<span class="fc" id="L101">        User currentUser = currentUserService.getUser();</span>
-<span class="fc" id="L102">        Long requesterId = currentUser.getId();</span>
+<span class="fc" id="L96">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
+<span class="fc" id="L97">        User currentUser = currentUserService.getUser();</span>
+<span class="fc" id="L98">        Long requesterId = currentUser.getId();</span>
 
-<span class="fc" id="L104">        User professor = userRepository.findById(professorId)</span>
-<span class="fc" id="L105">            .orElseThrow(() -&gt; new EntityNotFoundException(User.class, professorId));</span>
+<span class="fc" id="L100">        User professor = userRepository.findById(professorId)</span>
+<span class="fc" id="L101">            .orElseThrow(() -&gt; new EntityNotFoundException(User.class, professorId));</span>
 
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (!professor.getAdmin()) {</span>
-<span class="fc" id="L108">            throw new IllegalArgumentException(&quot;Requested professor is not an admin.&quot;);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (!professor.getAdmin()) {</span>
+<span class="fc" id="L104">            throw new IllegalArgumentException(&quot;Requested professor is not an admin.&quot;);</span>
         }
 
-<span class="fc" id="L111">        requestTypeRepository.findByRequestType(requestType)</span>
-<span class="fc" id="L112">                .orElseThrow(() -&gt; new EntityNotFoundException(RequestType.class, requestType));</span>
+<span class="fc" id="L107">        requestTypeRepository.findByRequestType(requestType)</span>
+<span class="fc" id="L108">                .orElseThrow(() -&gt; new EntityNotFoundException(RequestType.class, requestType));</span>
 
-<span class="fc" id="L114">        recommendationRequest.setRequesterId(requesterId);</span>
-<span class="fc" id="L115">        recommendationRequest.setProfessorId(professorId);</span>
-<span class="fc" id="L116">        recommendationRequest.setRequestType(requestType);</span>
-<span class="fc" id="L117">        recommendationRequest.setDetails(details);</span>
+<span class="fc" id="L110">        recommendationRequest.setRequesterId(requesterId);</span>
+<span class="fc" id="L111">        recommendationRequest.setProfessorId(professorId);</span>
+<span class="fc" id="L112">        recommendationRequest.setRequestType(requestType);</span>
+<span class="fc" id="L113">        recommendationRequest.setDetails(details);</span>
 
         // completionDate is unassigned until completed, so we set that as null
-<span class="fc" id="L120">        LocalDateTime submissionDate = LocalDateTime.now();</span>
-<span class="fc" id="L121">        submissionDate = submissionDate.minusNanos(submissionDate.getNano());</span>
+<span class="fc" id="L116">        LocalDateTime submissionDate = LocalDateTime.now();</span>
+<span class="fc" id="L117">        submissionDate = submissionDate.minusNanos(submissionDate.getNano());</span>
 
-<span class="fc" id="L123">        String status = &quot;Pending&quot;;</span>
+<span class="fc" id="L119">        String status = &quot;Pending&quot;;</span>
 
-<span class="fc" id="L125">        recommendationRequest.setNeededByDate(neededByDate);</span>
-<span class="fc" id="L126">        recommendationRequest.setSubmissionDate(submissionDate);</span>
-<span class="fc" id="L127">        recommendationRequest.setStatus(status);</span>
+<span class="fc" id="L121">        recommendationRequest.setNeededByDate(neededByDate);</span>
+<span class="fc" id="L122">        recommendationRequest.setSubmissionDate(submissionDate);</span>
+<span class="fc" id="L123">        recommendationRequest.setStatus(status);</span>
 
-<span class="fc" id="L129">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
+<span class="fc" id="L125">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
 
-<span class="fc" id="L131">        return savedRecommendationRequest;</span>
+<span class="fc" id="L127">        return savedRecommendationRequest;</span>
     }
 
     /**
@@ -145,18 +141,18 @@ import java.time.LocalDateTime;
     public RecommendationRequest getById(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id
         ) {
-<span class="fc" id="L148">        User currentUser = currentUserService.getUser();</span>
-<span class="fc" id="L149">        Long requesterId = currentUser.getId();</span>
+<span class="fc" id="L144">        User currentUser = currentUserService.getUser();</span>
+<span class="fc" id="L145">        Long requesterId = currentUser.getId();</span>
 
-<span class="fc" id="L151">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
-<span class="fc" id="L152">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+<span class="fc" id="L147">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L148">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
 
-<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (requesterId != recommendationRequest.getRequesterId()) {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		if (requesterId != recommendationRequest.getRequesterId()) {</span>
 			// throw entity not found to reveal less information to any malicious user
-<span class="fc" id="L156">			throw new EntityNotFoundException(RecommendationRequest.class, id);</span>
+<span class="fc" id="L152">			throw new EntityNotFoundException(RecommendationRequest.class, id);</span>
 		}
 
-<span class="fc" id="L159">        return recommendationRequest;</span>
+<span class="fc" id="L155">        return recommendationRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
